@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/websocket/v2"
 )
 
@@ -113,6 +114,8 @@ func startServer(port int) {
 	// Start the broadcast handler
 	go server.run()
 
+	app.Use(logger.New()) // Registrar logs de peticiones HTTP
+	
 	// WebSocket route
 	app.Use("/ws", func(c *fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(c) {
